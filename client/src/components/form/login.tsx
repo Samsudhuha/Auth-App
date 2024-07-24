@@ -16,9 +16,17 @@ const Login = ({ onDismiss, onLoginSuccessful }: LoginProps) => {
     async function onSubmit(credentials: LoginCredentials) {
         try {
             const newUser = await UserApi.Login(credentials);
+
+            if (!newUser.data) {
+                return alert("Email atau Password salah")
+            }
+
             localStorage.setItem('jwtToken', newUser.data.token);
             onLoginSuccessful(newUser);
+            
         } catch (error) {
+            console.log(error);
+            
             alert(error);
             
         }
